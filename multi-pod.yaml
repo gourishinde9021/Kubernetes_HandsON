@@ -15,6 +15,16 @@ spec:
           echo waiting for service
           sleep 2
         done
+  - name: init-mydb
+    image: busybox:1.28
+    command:
+      - sh
+      - -c
+      - |
+        until nslookup mydb.default.svc.cluster.local; do
+          echo waiting for service
+          sleep 2
+        done
 
   containers:
   - name: myapp
