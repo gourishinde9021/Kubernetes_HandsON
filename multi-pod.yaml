@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+
+spec:
+  initContainers:
+  - name: init-myservice
+    image: busybox:1.28
+    command:
+      - sh
+      - -c
+      - |
+        until nslookup myservice.default.svc.cluster.local; do
+          echo waiting for service
+          sleep 2
+        done
+
+  containers:
+  - name: myapp
+    image: busybox:1.28
+    command:
+      - sh
+      - -c
+      - |
+        echo The app is running!!
+        sleep 3600
+    env:
+    - name: FIRSTNAME
+      value: "gouri"
